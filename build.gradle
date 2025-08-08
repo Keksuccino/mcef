@@ -33,9 +33,9 @@ def getCheckedOutGitCommitHash(Project mcefParent) {
 tasks.register('publishMaven', GradleBuild) {
     group = 'mcef'
     tasks = [
-          ':common:publish',
-          ':fabric:publish',
-          ':neoforge:publish'
+            ':common:publish',
+            ':fabric:publish',
+            ':neoforge:publish'
     ]
 }
 
@@ -53,36 +53,36 @@ tasks.register('publishCurseforge', GradleBuild) {
 tasks.register('fabricClient', GradleBuild) {
     group = 'mcef'
     tasks = [
-          ':fabric:runClient'
+            ':fabric:runClient'
     ]
 }
 
 tasks.register('neoforgeClient', GradleBuild) {
     group = 'mcef'
     tasks = [
-          ':neoforge:runClient'
+            ':neoforge:runClient'
     ]
 }
 
 tasks.register('fabricServer', GradleBuild) {
     group = 'mcef'
     tasks = [
-          ':fabric:runServer'
+            ':fabric:runServer'
     ]
 }
 
 tasks.register('neoforgeServer', GradleBuild) {
     group = 'mcef'
     tasks = [
-          ':neoforge:runServer'
+            ':neoforge:runServer'
     ]
 }
 
 tasks.register('cleanAll', GradleBuild) {
     group = 'mcef'
     tasks = [
-          ':common:clean',
-          ':fabric:clean',
-          ':neoforge:clean',
+            ':common:clean',
+            ':fabric:clean',
+            ':neoforge:clean',
     ]
 }

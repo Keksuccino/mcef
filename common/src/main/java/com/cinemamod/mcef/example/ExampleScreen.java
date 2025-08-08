@@ -22,24 +22,20 @@ package com.cinemamod.mcef.example;
 
 import com.cinemamod.mcef.MCEF;
 import com.cinemamod.mcef.MCEFBrowser;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.textures.GpuTexture;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.MeshData;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class ExampleScreen extends Screen {
+
     private static final int BROWSER_DRAW_OFFSET = 20;
 
     private MCEFBrowser browser;
 
-    protected ExampleScreen(Component component) {
+    public ExampleScreen(Component component) {
         super(component);
     }
 
@@ -89,22 +85,26 @@ public class ExampleScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int i, int j, float f) {
-        super.render(guiGraphics, i, j, f);
-//        RenderSystem.disableDepthTest();
-//        RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
-        GpuTexture texture = RenderSystem.getShaderTexture(browser.getRenderer().getTextureID());
-        RenderSystem.setShaderTexture(0, texture);
-        Tesselator t = Tesselator.getInstance();
-        BufferBuilder buffer = t.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        buffer.addVertex(BROWSER_DRAW_OFFSET, height - BROWSER_DRAW_OFFSET, 0).setUv(0.0f, 1.0f).setColor(255, 255, 255, 255);
-        buffer.addVertex(width - BROWSER_DRAW_OFFSET, height - BROWSER_DRAW_OFFSET, 0).setUv(1.0f, 1.0f).setColor(255, 255, 255, 255);
-        buffer.addVertex(width - BROWSER_DRAW_OFFSET, BROWSER_DRAW_OFFSET, 0).setUv(1.0f, 0.0f).setColor(255, 255, 255, 255);
-        buffer.addVertex(BROWSER_DRAW_OFFSET, BROWSER_DRAW_OFFSET, 0).setUv(0.0f, 0.0f).setColor(255, 255, 255, 255);
-        MeshData data = buffer.build();
-//        BufferUploader.drawWithShader(buffer.build());
-        RenderSystem.setShaderTexture(0, texture);
-//        RenderSystem.enableDepthTest();
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partial) {
+
+        super.render(guiGraphics, mouseX, mouseY, partial);
+        
+        // Check if the browser texture is ready for rendering
+        if (browser != null && browser.isTextureReady()) {
+            renderBrowserTexture(guiGraphics);
+        }
+
+    }
+    
+    private void renderBrowserTexture(GuiGraphics guiGraphics) {
+
+        // Get the ResourceLocation for the browser texture
+        ResourceLocation textureLocation = browser.getTextureLocation();
+
+        int frameRenderWidth = width - BROWSER_DRAW_OFFSET * 2;
+        int frameRenderHeight = height - BROWSER_DRAW_OFFSET * 2;
+        guiGraphics.blit(RenderType::guiTextured, textureLocation, BROWSER_DRAW_OFFSET, BROWSER_DRAW_OFFSET, 0.0F, 0.0F, frameRenderWidth, frameRenderHeight, frameRenderWidth, frameRenderHeight);
+
     }
 
     @Override
@@ -159,4 +159,5 @@ public class ExampleScreen extends Screen {
         browser.setFocus(true);
         return super.charTyped(codePoint, modifiers);
     }
+
 }
