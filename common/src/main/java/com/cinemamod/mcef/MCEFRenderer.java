@@ -122,9 +122,11 @@ public class MCEFRenderer {
             String label = "MCEF Browser Texture " + width + "x" + height;
             texture = RenderSystem.getDevice().createTexture(
                 label,
+                GpuTexture.USAGE_TEXTURE_BINDING | GpuTexture.USAGE_COPY_DST,
                 TextureFormat.RGBA8,
                 width,
                 height,
+                1, // depthOrLayers
                 1  // mipLevels
             );
             

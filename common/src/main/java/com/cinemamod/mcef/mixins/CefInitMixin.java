@@ -65,10 +65,8 @@ public abstract class CefInitMixin {
                     !recursionValue ||
                             guiScreen instanceof TitleScreen ||
                             guiScreen instanceof LevelLoadingScreen ||
-                            guiScreen instanceof ReceivingLevelScreen ||
                             guiScreen instanceof SelectWorldScreen ||
                             guiScreen instanceof DirectJoinServerScreen ||
-                            guiScreen instanceof EditServerScreen ||
                             guiScreen instanceof ConnectScreen ||
                             guiScreen instanceof AccessibilityOnboardingScreen ||
                             guiScreen instanceof SafetyScreen ||
