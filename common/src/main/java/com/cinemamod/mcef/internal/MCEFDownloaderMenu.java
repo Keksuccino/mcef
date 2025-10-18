@@ -37,7 +37,6 @@ public class MCEFDownloaderMenu extends Screen {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(graphics, mouseX, mouseY, partialTick);
         double cx = width / 2d;
         double cy = height / 2d;
 
