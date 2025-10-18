@@ -21,6 +21,10 @@ repositories {
     mavenCentral()
     maven { url = 'https://maven.fabricmc.net/' }
     maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven {
+        name = 'ParchmentMC'
+        url = 'https://maven.parchmentmc.org'
+    }
     mavenLocal()
 }
 
@@ -56,7 +60,7 @@ dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings loom.layered() {
         officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-1.21.9:2025.10.05@zip")
+        parchment("org.parchmentmc.data:parchment-1.21.6:2025.06.29@zip")
     }
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
 
