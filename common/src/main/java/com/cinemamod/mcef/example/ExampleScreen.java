@@ -25,11 +25,7 @@ import com.cinemamod.mcef.MCEFBrowser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.input.CharacterEvent;
-import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -112,17 +108,17 @@ public class ExampleScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
-        browser.sendMousePress(mouseX(event.x()), mouseY(event.y()), event.button());
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        browser.sendMousePress(mouseX(mouseX), mouseY(mouseY), button);
         browser.setFocus(true);
-        return super.mouseClicked(event, isDoubleClick);
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
-    public boolean mouseReleased(MouseButtonEvent event) {
-        browser.sendMouseRelease(mouseX(event.x()), mouseY(event.y()), event.button());
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        browser.sendMouseRelease(mouseX(mouseX), mouseY(mouseY), button);
         browser.setFocus(true);
-        return super.mouseReleased(event);
+        return super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override
@@ -132,8 +128,8 @@ public class ExampleScreen extends Screen {
     }
 
     @Override
-    public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
-        return super.mouseDragged(event, dragX, dragY);
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
     @Override
@@ -143,25 +139,25 @@ public class ExampleScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(KeyEvent event) {
-        browser.sendKeyPress(event.key(), event.scancode(), event.modifiers());
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        browser.sendKeyPress(keyCode, scanCode, modifiers);
         browser.setFocus(true);
-        return super.keyPressed(event);
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
-    public boolean keyReleased(KeyEvent event) {
-        browser.sendKeyRelease(event.key(), event.scancode(), event.modifiers());
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        browser.sendKeyRelease(keyCode, scanCode, modifiers);
         browser.setFocus(true);
-        return super.keyReleased(event);
+        return super.keyReleased(keyCode, scanCode, modifiers);
     }
 
     @Override
-    public boolean charTyped(CharacterEvent event) {
-        if (event.codepoint() == (char) 0) return false;
-        browser.sendKeyTyped((char) event.codepoint(), event.modifiers());
+    public boolean charTyped(char codePoint, int modifiers) {
+        if (codePoint == (char) 0) return false;
+        browser.sendKeyTyped(codePoint, modifiers);
         browser.setFocus(true);
-        return super.charTyped(event);
+        return super.charTyped(codePoint, modifiers);
     }
 
 }

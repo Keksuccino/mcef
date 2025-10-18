@@ -41,7 +41,7 @@ public class NeoForgeMCEFMod {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-        if (!FMLEnvironment.isProduction()) {
+        if (!FMLEnvironment.production) {
             new MCEFExampleMod();
         }
     }

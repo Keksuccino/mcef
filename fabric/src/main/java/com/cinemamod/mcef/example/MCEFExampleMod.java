@@ -11,7 +11,7 @@ public class MCEFExampleMod {
 
     private static final Minecraft MINECRAFT = Minecraft.getInstance();
 
-    public static final KeyMapping KEY_MAPPING = new KeyMapping("Open Browser", InputConstants.KEY_F12, KeyMapping.Category.MISC);
+    public static final KeyMapping KEY_MAPPING = new KeyMapping("Open Browser", InputConstants.KEY_F12, "MCEF");
 
     public MCEFExampleMod() {
         ClientTickEvents.START_CLIENT_TICK.register((client) -> onTick());
