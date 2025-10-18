@@ -18,10 +18,14 @@ def fixedJarName = "mcef-1.0.0.jar"
 def fixedSourcesJarName = "mcef-1.0.0-sources.jar"
 
 repositories {
-    mavenCentral()
-    maven { url = 'https://maven.fabricmc.net/' }
-    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
-    mavenLocal()
+   mavenCentral()
+   maven { url = 'https://maven.fabricmc.net/' }
+   maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+   maven {
+      name = 'ParchmentMC'
+      url = 'https://maven.parchmentmc.org'
+   }
+   mavenLocal()
 }
 
 /*
