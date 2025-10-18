@@ -30,11 +30,11 @@ import net.minecraft.client.renderer.texture.AbstractTexture;
  * directly with Minecraft's rendering system.
  */
 public class MCEFDirectTexture extends AbstractTexture {
+
     private int width;
     private int height;
     
     public MCEFDirectTexture() {
-        this.defaultBlur = false;
     }
     
     /**

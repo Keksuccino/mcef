@@ -115,6 +115,15 @@ gradle-app.setting
 run/
 **/runs/
 
+minecraft_cached_sources/
+opengl_library_cached_sources/
+run_codex.bat
+
+fabric/config.txt
+fabric/launcher.exe
+neoforge/config.txt
+neoforge/launcher.exe
+
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
