@@ -14,6 +14,9 @@ archivesBaseName = archives_base_name
 version = mod_version
 group = maven_group
 
+def fixedJarName = "mcef-1.0.0.jar"
+def fixedSourcesJarName = "mcef-1.0.0-sources.jar"
+
 repositories {
     mavenCentral()
     maven { url = 'https://maven.fabricmc.net/' }
@@ -88,7 +91,6 @@ sourceSets.main.java {
     srcDir "${buildDir}/generated/java"
 }
 compileJava.dependsOn generateJava
-generateJava.dependsOn('sourcesJar')
 
 processResources {
     filesMatching('fabric.mod.json') {
@@ -118,6 +120,18 @@ java {
     withSourcesJar()
 }
 
+tasks.named('remapJar') {
+    archiveFileName.set(fixedJarName)
+}
+
+tasks.named('remapSourcesJar') {
+    archiveFileName.set(fixedSourcesJarName)
+}
+
+tasks.named('sourcesJar') {
+    dependsOn generateJava
+}
+
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
@@ -144,7 +158,7 @@ curseforge {
         addGameVersion minecraft_version
         addGameVersion 'Fabric'
         addGameVersion "Java ${java_version}"
-        mainArtifact(file("${buildDir}/libs/${archivesBaseName}-${version}.jar")) {
+        mainArtifact(file("${buildDir}/libs/${fixedJarName}")) {
             displayName = "[FABRIC][${minecraft_version}] ${mod_name} ${mod_version}"
         }
         afterEvaluate {
