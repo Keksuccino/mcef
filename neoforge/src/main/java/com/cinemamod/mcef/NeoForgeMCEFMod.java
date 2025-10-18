@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 
 @Mod(NeoForgeMCEFMod.MODID)
 public class NeoForgeMCEFMod {
+
     public static final String MODID = "mcef";
     private static final Logger LOGGER = LogUtils.getLogger();
 
@@ -40,7 +41,7 @@ public class NeoForgeMCEFMod {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-        if (!FMLEnvironment.production) {
+        if (!FMLEnvironment.isProduction()) {
             new MCEFExampleMod();
         }
     }
@@ -48,4 +49,5 @@ public class NeoForgeMCEFMod {
     private void serverSetup(final FMLDedicatedServerSetupEvent event) {
         // MCEF server-side does nothing
     }
+
 }
