@@ -1,6 +1,27 @@
+/*
+ *     MCEF (Minecraft Chromium Embedded Framework)
+ *     Copyright (C) 2023 CinemaMod Group
+ *
+ *     This library is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU Lesser General Public
+ *     License as published by the Free Software Foundation; either
+ *     version 2.1 of the License, or (at your option) any later version.
+ *
+ *     This library is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *     Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public
+ *     License along with this library; if not, write to the Free Software
+ *     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
+ *     USA
+ */
+
 package com.cinemamod.mcef;
 
 import com.mojang.blaze3d.opengl.GlTexture;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.GpuTexture;
 import com.mojang.blaze3d.textures.TextureFormat;
 import net.minecraft.client.renderer.texture.AbstractTexture;
@@ -30,13 +51,23 @@ public class MCEFDirectTexture extends AbstractTexture {
         // If we already have a texture and it's not the same ID, don't close it
         // (we don't own these textures, MCEFRenderer does)
 
+        if (this.textureView != null) {
+            this.textureView.close();
+            this.textureView = null;
+        }
+
+        this.texture = null;
+
         if (textureId > 0) {
             // Create a custom GlTexture that wraps the existing ID
             this.texture = new DirectGlTexture(textureId, width, height);
+            this.textureView = RenderSystem.getDevice().createTextureView(this.texture);
             this.width = width;
             this.height = height;
         } else {
             this.texture = null;
+            this.width = 0;
+            this.height = 0;
         }
     }
 
@@ -50,7 +81,10 @@ public class MCEFDirectTexture extends AbstractTexture {
 
     @Override
     public void close() {
-        // Don't close the texture - we don't own it
+        if (this.textureView != null) {
+            this.textureView.close();
+            this.textureView = null;
+        }
         this.texture = null;
     }
 
@@ -74,8 +108,7 @@ public class MCEFDirectTexture extends AbstractTexture {
 
         @Override
         public void close() {
-            // Don't actually delete the texture - we don't own it
-            this.closed = true;
+            // Texture lifecycle is owned externally; no-op to avoid deleting the GL resource
         }
 
         @Override
