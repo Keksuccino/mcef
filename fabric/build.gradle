@@ -54,6 +54,7 @@ publishing {
             groupId = project.group
             artifactId = 'mcef-fabric'
             version = mcef_version
+            pom.packaging = 'jar'
             pom.withXml {
                 def deps = asNode().get('dependencies')
                 if (deps instanceof List) {
