@@ -24,19 +24,39 @@ Current Chromium version: `116.0.5845.190`
 
 **This mod will not work on Android.
 
-## For Players
+## Using MCEF in Your Projects
 
-This is the source code for MCEF.
+Snapshots and releases are mirrored on a static Maven repository hosted at `https://keksuccino.github.io/maven/`. Add the repository to your build script, then depend on the loader-specific artifact you need. Artifacts follow the pattern `de.keksuccino:<mod_id>-<loader>:<mod_version>-<minecraft_version>`.
 
-Download the mod for Fabric or NeoForge on either:
-- CurseForge: https://www.curseforge.com/minecraft/mc-mods/mcef
-- Modrinth: https://modrinth.com/mod/mcef
+### Fabric
 
-## For Modders
+```groovy
+repositories {
+    maven { url = "https://keksuccino.github.io/maven/" }
+}
 
-MCEF is LGPL, as long as your project doesn't modify or include MCEF source code, you can choose a different license. Read the full license in the LICENSE file in this directory.
+dependencies {
+    modImplementation "de.keksuccino:mcef-fabric:<mcef_version>-<mc_version>"
+}
+```
 
-### Building & Modifying MCEF
+Replace the MCEF and Minecraft version as required. `modImplementation` makes MCEF available in dev.
+
+### NeoForge
+
+```groovy
+repositories {
+    maven { url = "https://keksuccino.github.io/maven/" }
+}
+
+dependencies {
+    implementation "de.keksuccino:mcef-neoforge:<mcef_version>-<mc_version>"
+}
+```
+
+NeoForge ships deobfuscated jars by default, so the dependency can be declared with a plain `implementation`. Replace the MCEF and Minecraft version as required.
+
+## Building & Modifying MCEF
 
 After cloning this repo, you will need to clone the java-cef git submodule. There is a gradle task for this: `./gradlew cloneJcef`.
 
