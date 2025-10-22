@@ -36,6 +36,15 @@ Download the mod for Fabric or NeoForge on either:
 
 MCEF is LGPL, as long as your project doesn't modify or include MCEF source code, you can choose a different license. Read the full license in the LICENSE file in this directory.
 
+### Building & Modifying MCEF
+
+After cloning this repo, you will need to clone the java-cef git submodule. There is a gradle task for this: `./gradlew cloneJcef`.
+
+To run the Fabric client: `./gradlew fabricClient`
+To run the NeoForge client: `./gradlew neoforgeClient`
+
+In-game, there is a demo browser if you press F12 after you're loaded into a world (the demo browser only exists when you're running from a development environment).
+
 ## Clearing MCEF Cache
 
 MCEF skips the downloader screen once it detects that all required files are present. Remove the following paths to force a fresh download and clean browser data:
@@ -47,12 +56,3 @@ MCEF skips the downloader screen once it detects that all required files are pre
 - **Config overrides:** `<game directory>/config/mcef/mcef.properties` (delete or edit this file if it sets `skip-download=true`)
 
 After clearing these locations, restart the game and the Download screen will reappear to fetch a fresh Chromium bundle.
-
-### Building & Modifying MCEF
-
-After cloning this repo, you will need to clone the java-cef git submodule. There is a gradle task for this: `./gradlew cloneJcef`.
-
-To run the Fabric client: `./gradlew fabricClient`
-To run the NeoForge client: `./gradlew neoforgeClient`
-
-In-game, there is a demo browser if you press F12 after you're loaded into a world (the demo browser only exists when you're running from a development environment).
