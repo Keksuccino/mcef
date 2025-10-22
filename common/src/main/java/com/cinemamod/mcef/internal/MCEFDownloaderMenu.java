@@ -1,23 +1,3 @@
-/*
- *     MCEF (Minecraft Chromium Embedded Framework)
- *     Copyright (C) 2023 CinemaMod Group
- *
- *     This library is free software; you can redistribute it and/or
- *     modify it under the terms of the GNU Lesser General Public
- *     License as published by the Free Software Foundation; either
- *     version 2.1 of the License, or (at your option) any later version.
- *
- *     This library is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *     Lesser General Public License for more details.
- *
- *     You should have received a copy of the GNU Lesser General Public
- *     License along with this library; if not, write to the Free Software
- *     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
- *     USA
- */
-
 package com.cinemamod.mcef.internal;
 
 import net.minecraft.ChatFormatting;
@@ -31,12 +11,13 @@ public class MCEFDownloaderMenu extends Screen {
     private final Screen menu;
 
     public MCEFDownloaderMenu(Screen menu) {
-        super(Component.literal("MCEF is downloading required libraries..."));
+        super(Component.literal("MCEF is downloading required libraries...").withStyle(ChatFormatting.GOLD));
         this.menu = menu;
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+
         double cx = width / 2d;
         double cy = height / 2d;
 
@@ -71,45 +52,31 @@ public class MCEFDownloaderMenu extends Screen {
 
         // putting this here incase I want to re-add a third line later on
         // allows me to generalize the code to not care about line count
-        String[] text = new String[]{
+        String[] text = new String[] {
                 MCEFDownloadListener.INSTANCE.getTask(),
                 Math.round(MCEFDownloadListener.INSTANCE.getProgress() * 100) + "%",
         };
 
         /* Draw Text */
+
         // calculate offset for the top line
         int oSet = ((font.lineHeight / 2) + ((font.lineHeight + 2) * (text.length + 2))) + 4;
         matrix.pushMatrix();
-        matrix.translate(
-                (float) cx,
-                (float) (cy - oSet)
-        );
+        matrix.translate((float) cx, (float) (cy - oSet));
         // draw menu name
-        graphics.drawString(
-                font,
-                ChatFormatting.GOLD + title.getString(),
-                (int) -(font.width(title.getString()) / 2d), 0,
-                0xFFFFFF
-        );
-        // draw text
+        graphics.drawString(this.font, this.title, (int) -(font.width(this.title) / 2d), 0, -1);
+        // draw other text
         int index = 0;
         for (String s : text) {
             if (index == 1) {
                 matrix.translate(0.0F, font.lineHeight + 2.0F);
             }
-
             matrix.translate(0.0F, font.lineHeight + 2.0F);
-            graphics.drawString(
-                    font,
-                    s,
-                    (int) -(font.width(s) / 2d), 0,
-                    0xFFFFFF
-            );
+            graphics.drawString(this.font, s, (int) -(font.width(s) / 2d), 0, -1);
             index++;
         }
         matrix.popMatrix();
 
-        // TODO: if listener.isFailed(), draw some "Failed to initialize MCEF" text with an "OK" button to proceed
     }
 
     @Override
