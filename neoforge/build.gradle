@@ -13,6 +13,7 @@ group = mod_packagename
 
 def fixedJarName = "mcef-1.0.0.jar"
 def fixedSourcesJarName = "mcef-1.0.0-sources.jar"
+def fixedPomName = "mcef-1.0.0.pom"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(java_version as int)
 
@@ -50,9 +51,16 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-            groupId = 'com.cinemamod'
+            groupId = project.group
             artifactId = 'mcef-neoforge'
             version = mcef_version
+            pom.packaging = 'jar'
+            pom.withXml {
+                def deps = asNode().get('dependencies')
+                if (deps instanceof List) {
+                    deps.each { asNode().remove(it) }
+                }
+            }
         }
     }
 }
@@ -132,6 +140,10 @@ tasks.named('sourcesJar') {
     archiveFileName.set(fixedSourcesJarName)
 }
 
+def pomTask = tasks.named('generatePomFileForMavenJavaPublication') {
+    destination = layout.buildDirectory.file("libs/${fixedPomName}").get().asFile
+}
+
 curseforge {
     apiKey = file("${rootDir}/curseforge_api_key.txt").exists() ? file("${rootDir}/curseforge_api_key.txt").text.trim() : ''
     project {
@@ -149,4 +161,8 @@ curseforge {
 shadowJar {
     configurations = [project.configurations.shadowMc]
     archiveClassifier = ''
+}
+
+tasks.named('build') {
+    dependsOn(pomTask)
 }
