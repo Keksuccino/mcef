@@ -17,6 +17,7 @@ group = maven_group
 def fixedJarName = "mcef-1.0.0.jar"
 def fixedSourcesJarName = "mcef-1.0.0-sources.jar"
 def fixedNamedJarName = "mcef-1.0.0-named.jar"
+def fixedPomName = "mcef-1.0.0.pom"
 
 repositories {
    mavenCentral()
@@ -50,9 +51,15 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-            groupId = 'com.cinemamod'
+            groupId = project.group
             artifactId = 'mcef-fabric'
             version = mcef_version
+            pom.withXml {
+                def deps = asNode().get('dependencies')
+                if (deps instanceof List) {
+                    deps.each { asNode().remove(it) }
+                }
+            }
         }
     }
 }
@@ -152,6 +159,10 @@ def namedJarTask = tasks.register('namedJar') {
     }
 }
 
+def pomTask = tasks.named('generatePomFileForMavenJavaPublication') {
+    destination = layout.buildDirectory.file("libs/${fixedPomName}").get().asFile
+}
+
 tasks.named('sourcesJar') {
     dependsOn generateJava
 }
@@ -205,5 +216,5 @@ remapJar {
 }
 
 tasks.named('build') {
-    dependsOn(namedJarTask)
+    dependsOn(namedJarTask, pomTask)
 }
