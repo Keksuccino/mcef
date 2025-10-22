@@ -43,7 +43,7 @@ set "NEOFORGE_LIB_DIR=%PROJECT_DIR%neoforge\build\libs"
 set "FABRIC_BASE=%MOD_ID%-1.0.0"
 set "NEOFORGE_BASE=%MOD_ID%-1.0.0"
 
-for %%F in ("%FABRIC_LIB_DIR%\%FABRIC_BASE%.jar" "%FABRIC_LIB_DIR%\%FABRIC_BASE%-sources.jar" "%FABRIC_LIB_DIR%\%FABRIC_BASE%-named.jar" "%FABRIC_LIB_DIR%\%FABRIC_BASE%.pom") do (
+for %%F in ("%FABRIC_LIB_DIR%\%FABRIC_BASE%-named.jar" "%FABRIC_LIB_DIR%\%FABRIC_BASE%-sources.jar" "%FABRIC_LIB_DIR%\%FABRIC_BASE%.pom") do (
     if not exist "%%~fF" (
         echo Missing Fabric artifact: %%~fF
         goto :finish
@@ -79,9 +79,8 @@ set "TARGET_DIR=%REPO_DIR%\maven\de\keksuccino\%MOD_ID%\%VERSION%"
 if not exist "%TARGET_DIR%" mkdir "%TARGET_DIR%"
 
 set "FABRIC_ARTIFACT=%MOD_ID%-fabric-%VERSION%"
-copy /y "%FABRIC_LIB_DIR%\%FABRIC_BASE%.jar" "%TARGET_DIR%\%FABRIC_ARTIFACT%.jar" >nul || goto :copyfail
+copy /y "%FABRIC_LIB_DIR%\%FABRIC_BASE%-named.jar" "%TARGET_DIR%\%FABRIC_ARTIFACT%.jar" >nul || goto :copyfail
 copy /y "%FABRIC_LIB_DIR%\%FABRIC_BASE%-sources.jar" "%TARGET_DIR%\%FABRIC_ARTIFACT%-sources.jar" >nul || goto :copyfail
-copy /y "%FABRIC_LIB_DIR%\%FABRIC_BASE%-named.jar" "%TARGET_DIR%\%FABRIC_ARTIFACT%-named.jar" >nul || goto :copyfail
 copy /y "%FABRIC_LIB_DIR%\%FABRIC_BASE%.pom" "%TARGET_DIR%\%FABRIC_ARTIFACT%.pom" >nul || goto :copyfail
 
 set "NEOFORGE_ARTIFACT=%MOD_ID%-neoforge-%VERSION%"
