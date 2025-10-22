@@ -36,11 +36,11 @@ repositories {
 }
 
 dependencies {
-    modImplementation "de.keksuccino:mcef-fabric:${project.mcefVersion}-1.21.10"
+    modImplementation "de.keksuccino:mcef-fabric:2.1.7-1.21.10"
 }
 ```
 
-Replace `${project.mcefVersion}` and Minecraft version as required. `modImplementation` makes MCEF available in dev.
+Replace the MCEF and Minecraft version as required. `modImplementation` makes MCEF available in dev.
 
 ### NeoForge
 
@@ -50,13 +50,13 @@ repositories {
 }
 
 dependencies {
-    implementation "de.keksuccino:mcef-neoforge:${project.mcefVersion}-1.21.10"
+    implementation "de.keksuccino:mcef-neoforge:2.1.7-1.21.10"
 }
 ```
 
-NeoForge ships deobfuscated jars by default, so the dependency can be declared with a plain `implementation`. Substitute the version tuple for the release you want to target.
+NeoForge ships deobfuscated jars by default, so the dependency can be declared with a plain `implementation`. Replace the MCEF and Minecraft version as required.
 
-### Building & Modifying MCEF
+## Building & Modifying MCEF
 
 After cloning this repo, you will need to clone the java-cef git submodule. There is a gradle task for this: `./gradlew cloneJcef`.
 
