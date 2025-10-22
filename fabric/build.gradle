@@ -16,6 +16,7 @@ group = maven_group
 
 def fixedJarName = "mcef-1.0.0.jar"
 def fixedSourcesJarName = "mcef-1.0.0-sources.jar"
+def fixedNamedJarName = "mcef-1.0.0-named.jar"
 
 repositories {
    mavenCentral()
@@ -132,6 +133,25 @@ tasks.named('remapSourcesJar') {
     archiveFileName.set(fixedSourcesJarName)
 }
 
+def shadowJarTask = tasks.named('shadowJar')
+
+def namedJarOutput = layout.buildDirectory.file("libs/${fixedNamedJarName}")
+
+def namedJarTask = tasks.register('namedJar') {
+    group = 'build'
+    description = 'Produces the Yarn-named distribution jar.'
+    dependsOn(shadowJarTask)
+    inputs.file(shadowJarTask.flatMap { it.archiveFile })
+    outputs.file(namedJarOutput)
+    doLast {
+        copy {
+            from(shadowJarTask.get().archiveFile.get().asFile)
+            into(namedJarOutput.get().asFile.parentFile)
+            rename { fixedNamedJarName }
+        }
+    }
+}
+
 tasks.named('sourcesJar') {
     dependsOn generateJava
 }
@@ -182,4 +202,8 @@ shadowJar {
 remapJar {
     dependsOn shadowJar
     inputFile = shadowJar.archiveFile.get()
+}
+
+tasks.named('build') {
+    dependsOn(namedJarTask)
 }
