@@ -24,7 +24,7 @@ Current Chromium version: `116.0.5845.190`
 
 **This mod will not work on Android.
 
-## Use MCEF in Your Projects
+## Using MCEF in Your Projects
 
 Snapshots and releases are mirrored on a static Maven repository hosted at `https://keksuccino.github.io/maven/`. Add the repository to your build script, then depend on the loader-specific artifact you need. Artifacts follow the pattern `de.keksuccino:<mod_id>-<loader>:<mod_version>-<minecraft_version>`.
 
