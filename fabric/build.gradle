@@ -164,8 +164,10 @@ def pomTask = tasks.named('generatePomFileForMavenJavaPublication') {
     destination = layout.buildDirectory.file("libs/${fixedPomName}").get().asFile
 }
 
-tasks.named('sourcesJar') {
+tasks.named('sourcesJar', Jar).configure {
     dependsOn generateJava
+    from(project(':common').sourceSets.main.allSource)
+    from(project(':common').sourceSets.jcef.allSource)
 }
 
 jar {

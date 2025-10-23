@@ -93,8 +93,11 @@ sourceSets.main.java {
 }
 compileJava.dependsOn generateJava
 
-tasks.named('sourcesJar') {
+tasks.named('sourcesJar', Jar).configure {
     dependsOn generateJava
+    archiveFileName.set(fixedSourcesJarName)
+    from(project(':common').sourceSets.main.allSource)
+    from(project(':common').sourceSets.jcef.allSource)
 }
 
 processResources {
@@ -134,10 +137,6 @@ jar {
         ])
     }
     from configurations.shadow.collect { it.isDirectory() ? it : zipTree(it) }
-}
-
-tasks.named('sourcesJar') {
-    archiveFileName.set(fixedSourcesJarName)
 }
 
 def pomTask = tasks.named('generatePomFileForMavenJavaPublication') {
